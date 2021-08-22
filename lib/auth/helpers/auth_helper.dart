@@ -25,10 +25,11 @@ class AuthHelper {
     }
   }
 
-  signIn(String email, String password) async {
+   Future<UserCredential> signIn(String email, String password) async {
     try {
-      await firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential =  await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+      return userCredential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         CustomDialog.customDialog

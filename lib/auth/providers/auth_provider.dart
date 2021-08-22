@@ -23,7 +23,7 @@ class AuthProvider extends ChangeNotifier {
         fName: fNameController.text,
         lName: lNameController.text,
         city: cityController.text);
-    await FireStoreHelper.fireStoreHelper.saveUser(registerRequest);
+    await FireStoreHelper.fireStoreHelper.addUserToFirestore(registerRequest);
     await
     AuthHelper.authHelper.verifyEmail();
     await AuthHelper.authHelper.sigOut();
@@ -32,8 +32,9 @@ class AuthProvider extends ChangeNotifier {
   }
 
   signIn() async {
-    await AuthHelper.authHelper.signIn(
+    UserCredential userCredential = await AuthHelper.authHelper.signIn(
         emailController.text, passwordController.text);
+    FireStoreHelper.fireStoreHelper.getUserFromFireStore(userCredential.user.uid);
     bool isVerifiedEmail = AuthHelper.authHelper.checkEmailVerification();
     if (isVerifiedEmail) {
       RouteHelper.routeHelper.pushReplacementNamed(HomePage.routeName);
