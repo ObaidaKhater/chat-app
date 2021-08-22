@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {
   static final routeName = 'register';
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
@@ -28,7 +29,16 @@ class RegisterPage extends StatelessWidget {
                 SizedBox(height: 20),
                 CustomTextFieldWidget(authProvider.emailController, 'Email'),
                 SizedBox(height: 10),
-                CustomTextFieldWidget(authProvider.passwordController, 'Password'),
+                CustomTextFieldWidget(
+                    authProvider.passwordController, 'Password'),
+                SizedBox(height: 10),
+                CustomTextFieldWidget(
+                    authProvider.fNameController, 'First Name'),
+                SizedBox(height: 10),
+                CustomTextFieldWidget(
+                    authProvider.lNameController, 'Last Name'),
+                SizedBox(height: 10),
+                CustomTextFieldWidget(authProvider.cityController, 'City'),
                 SizedBox(height: 30),
                 CustomButtonWidget('SIGN UP', () => authProvider.register),
               ],

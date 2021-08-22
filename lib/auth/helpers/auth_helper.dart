@@ -7,10 +7,11 @@ class AuthHelper {
   static AuthHelper authHelper = AuthHelper._();
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  signup(String email, String password) async {
+  Future<UserCredential> signup(String email, String password) async {
     try {
-      await firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential userCredential = await firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      return userCredential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         CustomDialog.customDialog
@@ -60,7 +61,5 @@ class AuthHelper {
   bool checkEmailVerification() {
     return firebaseAuth.currentUser?.emailVerified ?? false;
   }
-
-
 
 }
