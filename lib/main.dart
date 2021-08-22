@@ -1,20 +1,29 @@
 import 'package:chat_app/Auth/providers/auth_provider.dart';
-import 'package:chat_app/Auth/ui/auth_main_page.dart';
 import 'package:chat_app/Auth/ui/register_page.dart';
 import 'package:chat_app/Auth/ui/reset_password_page.dart';
 import 'package:chat_app/Auth/ui/sign_in_page.dart';
+import 'package:chat_app/auth/ui/auth_main_page.dart';
 import 'package:chat_app/chats/home_page.dart';
+import 'package:chat_app/chats/providers/user_provider.dart';
+import 'package:chat_app/chats/splash_page.dart';
 import 'package:chat_app/services/routes_helper.dart';
+import 'package:chat_app/services/shared_preferences_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(ChangeNotifierProvider<AuthProvider>(
-    create: (context) => AuthProvider(),
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SPHelper.spHelper.initSharedPreferences();
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<AuthProvider>(create: (context) => AuthProvider()),
+      ChangeNotifierProvider<UserProvider>(create: (context) => UserProvider()),
+    ],
     child: MaterialApp(
       navigatorKey: RouteHelper.routeHelper.navKey,
       routes: {
+        AuthMainPage.routeName: (context) => AuthMainPage(),
         RegisterPage.routeName: (context) => RegisterPage(),
         SignInPage.routeName: (context) => SignInPage(),
         ResetPasswordPage.routeName: (context) => ResetPasswordPage(),
@@ -67,7 +76,7 @@ class FirebaseConfiguration extends StatelessWidget {
             );
           }
           if (dataSnapshot.connectionState == ConnectionState.done) {
-            return AuthMainPage();
+            return SplashPage();
           }
           return Scaffold(
             body: Center(child: CircularProgressIndicator()),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AuthMainPage extends StatefulWidget {
+  static final routeName = 'authMain';
   @override
   _AuthMainPageState createState() => _AuthMainPageState();
 }

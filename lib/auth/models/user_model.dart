@@ -1,21 +1,27 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class RegisterRequest {
+class UserModel {
   String id;
   String fName;
   String lName;
   String email;
-  String password;
   String city;
 
-  RegisterRequest({
+  UserModel({
     @required this.id,
     @required this.email,
-    @required this.password,
     @required this.fName,
     @required this.lName,
     @required this.city,
   });
+
+  UserModel.fromMap(Map map) {
+    this.id = map['id'];
+    this.email = map['email'];
+    this.fName = map['fName'];
+    this.lName = map['lName'];
+    this.city = map['city'];
+  }
 
   toMap() {
     return {
