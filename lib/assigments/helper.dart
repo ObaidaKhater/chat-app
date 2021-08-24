@@ -12,6 +12,7 @@ class CountryHelper {
         .fireStoreHelper.firestore
         .collection('countries')
         .get();
+
     return querySnapshot.docs
         .map((element) => CountryModel.fromMap(element.data()))
         .toList();
