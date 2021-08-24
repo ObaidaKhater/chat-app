@@ -2,6 +2,7 @@ import 'package:chat_app/Auth/providers/auth_provider.dart';
 import 'package:chat_app/Auth/ui/register_page.dart';
 import 'package:chat_app/Auth/ui/reset_password_page.dart';
 import 'package:chat_app/Auth/ui/sign_in_page.dart';
+import 'package:chat_app/assigments/provider.dart';
 import 'package:chat_app/auth/ui/auth_main_page.dart';
 import 'package:chat_app/chats/home_page.dart';
 import 'package:chat_app/chats/providers/user_provider.dart';
@@ -12,14 +13,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'assigments/ui.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SPHelper.spHelper.initSharedPreferences();
   runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider<AuthProvider>(create: (context) => AuthProvider()),
-      ChangeNotifierProvider<UserProvider>(create: (context) => UserProvider()),
-    ],
     child: MaterialApp(
       navigatorKey: RouteHelper.routeHelper.navKey,
       routes: {
@@ -60,6 +59,11 @@ void main() async {
         ),
       ),
     ),
+    providers: [
+      ChangeNotifierProvider<AuthProvider>(create: (context) => AuthProvider()),
+      ChangeNotifierProvider<UserProvider>(create: (context) => UserProvider()),
+      ChangeNotifierProvider<CountryProvider>(create: (context) => CountryProvider()),
+    ],
   ));
 }
 
@@ -76,7 +80,8 @@ class FirebaseConfiguration extends StatelessWidget {
             );
           }
           if (dataSnapshot.connectionState == ConnectionState.done) {
-            return SplashPage();
+            // return SplashPage();
+            return  CountryPage();
           }
           return Scaffold(
             body: Center(child: CircularProgressIndicator()),

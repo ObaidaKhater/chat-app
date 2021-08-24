@@ -1,4 +1,4 @@
-
+import 'package:chat_app/auth/providers/auth_provider.dart';
 import 'package:chat_app/chats/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,12 +6,17 @@ import 'package:provider/provider.dart';
 class HomePage extends StatelessWidget {
   static final routeName = 'home';
 
-  Widget build(BuildContext context1) {
-    return Consumer<UserProvider>(builder: (context, userProvider, x) {
+  Widget build(BuildContext context) {
+    return Consumer2<UserProvider, AuthProvider>(
+        builder: (context, userProvider, authProvider, x) {
       return Scaffold(
+        floatingActionButton: FloatingActionButton(onPressed: () => authProvider.signOut),
         appBar: AppBar(
           backgroundColor: Colors.grey,
-          title: Text('Home',style: Theme.of(context).textTheme.headline1,),
+          title: Text(
+            'Home',
+            style: Theme.of(context).textTheme.headline1,
+          ),
           centerTitle: true,
         ),
         body: (userProvider.users != null)
@@ -19,7 +24,7 @@ class HomePage extends StatelessWidget {
                 itemCount: userProvider.users.length,
                 itemBuilder: (context, index) => ListTile(
                   leading: CircleAvatar(
-                    child: Text((index+1).toString()),
+                    child: Text((index + 1).toString()),
                     backgroundColor: Colors.blue,
                   ),
                   title: Text(
