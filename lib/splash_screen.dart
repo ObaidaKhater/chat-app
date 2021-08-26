@@ -7,20 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SplashPage extends StatelessWidget {
-  static final routeName = 'splash';
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 3)).then((value) {
-      if (SPHelper.spHelper.getCurrentUser() != null) {
-        RouteHelper.routeHelper.pushReplacementNamed(HomePage.routeName);
-      } else {
-        RouteHelper.routeHelper.pushReplacementNamed(AuthMainPage.routeName);
-      }
+    Future.delayed(Duration(seconds: 2)).then((value) {
+     Provider.of<AuthProvider>(context,listen: false).checkIsLoginUser();
     });
     return Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: Text('Splash Screen',style: Theme.of(context).textTheme.subtitle1,),
       ),
     );
   }

@@ -59,7 +59,17 @@ class AuthHelper {
     return firebaseAuth.currentUser;
   }
 
+  bool checkIsLogin() {
+    bool isLogin = (firebaseAuth.currentUser == null) ? false : true;
+    return isLogin;
+  }
+
   bool checkEmailVerification() {
     return firebaseAuth.currentUser?.emailVerified ?? false;
+  }
+
+  String getCurrentUserId() {
+    String userId = firebaseAuth.currentUser.uid;
+    return userId;
   }
 }

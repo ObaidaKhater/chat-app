@@ -5,21 +5,32 @@ import 'package:chat_app/Auth/ui/sign_in_page.dart';
 import 'package:chat_app/assigments/provider.dart';
 import 'package:chat_app/auth/ui/auth_main_page.dart';
 import 'package:chat_app/chats/home_page.dart';
-import 'package:chat_app/chats/providers/user_provider.dart';
-import 'package:chat_app/chats/splash_page.dart';
+import 'package:chat_app/chats/profile_page.dart';
+import 'package:chat_app/chats/users_page.dart';
+import 'package:chat_app/splash_screen.dart';
 import 'package:chat_app/services/routes_helper.dart';
 import 'package:chat_app/services/shared_preferences_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'assigments/ui.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SPHelper.spHelper.initSharedPreferences();
   runApp(MultiProvider(
-    child: MaterialApp(
+    providers: [
+      ChangeNotifierProvider<AuthProvider>(create: (context) => AuthProvider()),
+      ChangeNotifierProvider<CountryProvider>(create: (context) => CountryProvider()),
+    ],
+    child: OO(),
+
+  ));
+}
+class OO extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       navigatorKey: RouteHelper.routeHelper.navKey,
       routes: {
         AuthMainPage.routeName: (context) => AuthMainPage(),
@@ -27,6 +38,8 @@ void main() async {
         SignInPage.routeName: (context) => SignInPage(),
         ResetPasswordPage.routeName: (context) => ResetPasswordPage(),
         HomePage.routeName: (context) => HomePage(),
+        ProfilePage.routeName: (context) => ProfilePage(),
+        UsersPage.routeName: (context) => UsersPage(),
       },
       home: FirebaseConfiguration(),
       theme: ThemeData.light().copyWith(
@@ -58,13 +71,8 @@ void main() async {
           ),
         ),
       ),
-    ),
-    providers: [
-      ChangeNotifierProvider<AuthProvider>(create: (context) => AuthProvider()),
-      ChangeNotifierProvider<UserProvider>(create: (context) => UserProvider()),
-      ChangeNotifierProvider<CountryProvider>(create: (context) => CountryProvider()),
-    ],
-  ));
+    );
+  }
 }
 
 class FirebaseConfiguration extends StatelessWidget {
@@ -80,8 +88,7 @@ class FirebaseConfiguration extends StatelessWidget {
             );
           }
           if (dataSnapshot.connectionState == ConnectionState.done) {
-            // return SplashPage();
-            return  CountryPage();
+            return SplashPage();
           }
           return Scaffold(
             body: Center(child: CircularProgressIndicator()),

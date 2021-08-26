@@ -1,9 +1,9 @@
-import 'package:chat_app/Auth/helpers/auth_helper.dart';
+import 'package:chat_app/auth/helpers/auth_helper.dart';
 import 'package:chat_app/auth/helpers/firestore_helper.dart';
 import 'package:chat_app/auth/models/register_request.dart';
 import 'package:chat_app/auth/models/user_model.dart';
+import 'package:chat_app/auth/ui/auth_main_page.dart';
 import 'package:chat_app/chats/home_page.dart';
-import 'package:chat_app/services/custom_dialoug.dart';
 import 'package:chat_app/services/routes_helper.dart';
 import 'package:chat_app/services/shared_preferences_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +16,7 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController lNameController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TabController tabController;
+  UserModel user;
 
   register() async {
     UserCredential userCredential = await AuthHelper.authHelper
@@ -35,8 +36,10 @@ class AuthProvider extends ChangeNotifier {
   }
 
   signIn() async {
-    UserCredential userCredential = await AuthHelper.authHelper.signIn(emailController.text, passwordController.text);
-    UserModel userModel = await FireStoreHelper.fireStoreHelper.getUserFromFireStore(userCredential.user.uid);
+    UserCredential userCredential = await AuthHelper.authHelper
+        .signIn(emailController.text, passwordController.text);
+    UserModel userModel = await FireStoreHelper.fireStoreHelper
+        .getUserFromFireStore(userCredential.user.uid);
     SPHelper.spHelper.saveCurrentUser(userModel);
     // bool isVerifiedEmail = AuthHelper.authHelper.checkEmailVerification();
     // if (isVerifiedEmail) {
@@ -54,8 +57,8 @@ class AuthProvider extends ChangeNotifier {
   }
 
   signOut() {
-     AuthHelper.authHelper.sigOut();
-     SPHelper.spHelper.removeCurrentUser();
+    AuthHelper.authHelper.sigOut();
+    SPHelper.spHelper.removeCurrentUser();
   }
 
   resetPassword() {
@@ -66,5 +69,19 @@ class AuthProvider extends ChangeNotifier {
   resetControllers() {
     emailController.clear();
     passwordController.clear();
+  }
+
+  checkIsLoginUser() {
+    bool isLogin = AuthHelper.authHelper.checkIsLogin();
+    if (isLogin)
+      RouteHelper.routeHelper.pushReplacementNamed(HomePage.routeName);
+    else
+      RouteHelper.routeHelper.pushReplacementNamed(AuthMainPage.routeName);
+  }
+
+  getCurrentUser() async {
+    String userId = AuthHelper.authHelper.getCurrentUserId();
+    user = await FireStoreHelper.fireStoreHelper.getUserFromFireStore(userId);
+    notifyListeners();
   }
 }
