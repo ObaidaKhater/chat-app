@@ -1,6 +1,6 @@
-import 'package:chat_app/Auth/ui/widgets/custom_button_widget.dart';
 import 'package:chat_app/providers/auth_provider.dart';
 import 'package:chat_app/ui/auth_pages/widgets/coutom_box_image_widget.dart';
+import 'package:chat_app/ui/auth_pages/widgets/custom_button_widget.dart';
 import 'package:chat_app/ui/global_widgets/custom_dropdown_cities_widget.dart';
 import 'package:chat_app/ui/global_widgets/custom_dropdown_countries_widget.dart';
 import 'package:chat_app/ui/global_widgets/custom_textfield_widget.dart';

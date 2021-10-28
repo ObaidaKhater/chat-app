@@ -26,6 +26,7 @@ void main() {
       ChangeNotifierProvider<ChatProvider>(create: (context) => ChatProvider()),
     ],
     child: MaterialApp(
+      debugShowCheckedModeBanner: false,
       navigatorKey: RouteHelper.routeHelper.navKey,
       routes: {
         AuthMainPage.routeName: (context) => AuthMainPage(),

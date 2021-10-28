@@ -1,5 +1,5 @@
-import 'package:chat_app/Auth/ui/widgets/custom_button_widget.dart';
 import 'package:chat_app/providers/auth_provider.dart';
+import 'package:chat_app/ui/auth_pages/widgets/custom_button_widget.dart';
 import 'package:chat_app/ui/global_widgets/custom_textfield_widget.dart';
 import 'package:chat_app/services/routes_helper.dart';
 import 'package:flutter/material.dart';
